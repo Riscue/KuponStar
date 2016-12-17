@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Kuponstar</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="stylesheet" href="css/bootstrap.min.css" />
+	<style>
+		body {
+			margin: 0 auto;
+			background: url("../img/fmBg.png") repeat-x #fff;
+			width: 1110px;
+		}
+		ul {
+			list-style-type: none;
+			padding: 0;
+		}
+		input[type=text],
+		input[type=password] {
+			width: 100%;
+		}
+		a,
+		a:hover,
+		a:focus {
+			font: 10px Verdana, Helvetica, sans-serif;
+			text-decoration: none;
+		}
+		/* Başlık */
+		
+		.header {
+			height: 92px;
+		}
+		.logo {
+			background-image: url(../img/headerlogo.png);
+			width: 200px;
+			height: 60px;
+			float: left;
+			margin-top: 15px;
+			margin-left: 20px;
+		}
+		/* İçerik */
+		
+		.container {
+			background: url("../img/fmContentBg.png") repeat-y;
+			padding: 10px;
+			display: flex;
+			width: 100%;
+		}
+		.container>div {
+			padding: 5px;
+		}
+		.content .box-top {
+			background: url(../img/fmContentTop.png);
+			background-size: 100% 100%;
+			height: 31px;
+			font-size: 14px;
+			line-height: 32px;
+			color: #fff;
+			font-weight: bold;
+			padding-left: 10px;
+			text-align: center;
+		}
+		.right form,
+		.right .coupon .content {
+			border-right: 1px solid #e9e9e9;
+			border-left: 1px solid #e9e9e9;
+			padding: 10px;
+		}
+		.box-top {
+			background: url(../img/fmBoxTop.png);
+			background-size: 100% 100%;
+			height: 32px;
+			font-size: 14px;
+			line-height: 32px;
+			color: #fff;
+			text-align: center;
+			font-weight: bold;
+		}
+		.box-bottom {
+			background: url(../img/fmBoxFt.png);
+			background-size: 100% 100%;
+			height: 14px;
+		}
+		.footage {
+			background: url("../img/fmFtBg.png");
+			height: 18px;
+		}
+		.kuponum-temp {
+			height: auto;
+			border: 1px solid #bcc9d1;
+			background: #e9eff5 !important;
+			padding: 12px 4px;
+		}
+		#overflowcoupon .kuponum-top {
+			/* width:238px; */
+			
+			height: 25px;
+			font: 13px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #fff;
+			line-height: 22px;
+			padding: 0 0 0 7px;
+		}
+		#overflowcoupon .kuponum-oran-bg {
+			/* width:239px; */
+			
+			height: 55px;
+			margin: 0 auto;
+			margin-top: 2px;
+		}
+		#overflowcoupon .kuponum-table {
+			/* width:240px; */
+			
+			background-color: #fff;
+			margin: 0 auto;
+			margin-top: 4px;
+		}
+		#overflowcoupon .kuponum-table td {
+			height: 16px;
+			font: 11px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #616161;
+		}
+		#overflowcoupon a.kuponum-team {
+			font: 11px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #262626;
+			text-decoration: none;
+			display: block;
+		}
+		#overflowcoupon .kuponum-coll {
+			/* width:238px; */
+			
+			margin: 0 auto;
+		}
+		#overflowcoupon .kuponum-coll td {
+			height: 20px;
+			font: 11px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #616161;
+		}
+		#overflowcoupon .input-style {
+			width: 70px;
+			height: 13px;
+			border: none;
+			font: 11px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #616161;
+			margin: 0 0 0 4px;
+		}
+		#overflowcoupon .input-style2 {
+			width: 70px;
+			height: 17px;
+			border: 1px solid #c6cbd0;
+			font: 11px Arial, Helvetica, sans-serif;
+			font-weight: bold;
+			color: #616161;
+			margin: 0 0 0 4px;
+		}
+		#overflowcoupon .row {
+		    padding: 0px 15px;
+		    font-size: smaller;
+		}
+		#overflowcoupon .row div {
+			padding: 0px;
+			margin: 0px;
+		}
+		#overflowcoupon .match {
+			font-size: medium;
+			background-color: aliceblue;
+			padding: 2px !important;
+			margin-bottom: 4px !important;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript">
+		Kuponstar = angular.module("Kuponstar", []);
+		Kuponstar.controller("Controller", ['$scope', '$http', function($scope, $http) {
+			$scope.User = {};
+			$scope.openSignup = function() {
+				$(".container .right .signup").css("display", "");
+				$(".container .right .login").css("display", "none");
+				$(".container .right .coupon").css("display", "none");
+			};
+			$scope.openLogin = function() {
+				$(".container .right .signup").css("display", "none");
+				$(".container .right .login").css("display", "");
+				$(".container .right .coupon").css("display", "none");
+			};
+			$scope.openCoupon = function() {
+				$(".container .right .signup").css("display", "none");
+				$(".container .right .login").css("display", "none");
+				$(".container .right .coupon").css("display", "");
+			};
+			$scope.init = function() {
+				var res = $http.get('api/getfixture');
+				res.success(function(data) {
+					$scope.fixture = data;
+				});
+				res.error(function(data) {
+					console.log("Error");
+				});
+			};
+			$scope.signup = function() {
+				var res = $http.post('api/signup', $scope.User);
+				res.success(function(data) {
+					$scope.openLogin();
+				});
+				res.error(function(data) {
+					console.log("Error");
+				});
+			};
+			$scope.login = function() {
+				var res = $http.post('api/login', $scope.User);
+				res.success(function(data) {
+					if (data != "") {
+						$scope.User = data;
+						$scope.openCoupon();
+					} else {
+						$scope.User = {};
+						console.log("Username or password wrong!");
+					}
+				});
+			};
+			$scope.remove = function(match) {
+				match["choice"] = "";
+			}
+			$scope.choose = function(match, choice) {
+				if (typeof $scope.User.id != 'undefined') {
+					if (match["choice"] == choice)
+						match["choice"] = "";
+					else
+						match["choice"] = choice;
+				} else {
+					console.log("login popup");
+				}
+			};
+			$scope.resetForm = function () {
+				$scope.User = {};
+			}
+		}]);
+		Kuponstar.filter('range', function() {
+		  return function(input, total) {
+		    total = parseInt(total);
+		
+		    for (var i=1; i<=total; i++) {
+		      input.push(i);
+		    }
+		
+		    return input;
+		  };
+		});
+	</script>
+</head>
+
+<body ng-app="Kuponstar" ng-controller="Controller">
+	<div class="header">
+		<a href="/">
+			<div class="logo"></div>
+		</a>
+		<div class="temizle"></div>
+	</div>
+	<div style="background: url(../img/fmMenu.png); height: 36px;"></div>
+	<div class="container">
+		<div class="col-md-4">
+			<div class="box-top">Recent Coupons</div>
+			<div class="box-bottom"></div>
+		</div>
+		<div class="content col-md-12" ng-init="init()">
+			<div class="box-top">Fixture</div>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Code</th>
+						<th>Match</th>
+						<th>1</th>
+						<th>0</th>
+						<th>2</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="match in fixture">
+						<td>{{match.code}}</td>
+						<td>{{match.home}} - {{match.guest}}</td>
+						<td>
+							<input ng-if="match.choice != 'ms1'" type="submit" ng-click="choose(match, 'ms1')" class="btn btn-primary btn-xs" value="{{match.ms1}}" />
+							<input ng-if="match.choice == 'ms1'" type="submit" ng-click="choose(match, 'ms1')" class="btn btn-warning btn-xs" value="{{match.ms1}}" />
+						</td>
+						<td>
+							<input ng-if="match.choice != 'ms0'" type="submit" ng-click="choose(match, 'ms0')" class="btn btn-primary btn-xs" value="{{match.ms0}}" />
+							<input ng-if="match.choice == 'ms0'" type="submit" ng-click="choose(match, 'ms0')" class="btn btn-warning btn-xs" value="{{match.ms0}}" />
+						</td>
+						<td>
+							<input ng-if="match.choice != 'ms2'" type="submit" ng-click="choose(match, 'ms2')" class="btn btn-primary btn-xs" value="{{match.ms2}}" />
+							<input ng-if="match.choice == 'ms2'" type="submit" ng-click="choose(match, 'ms2')" class="btn btn-warning btn-xs" value="{{match.ms2}}" />
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="right col-md-4">
+			<div class="login">
+				<div class="box-top">Log In</div>
+				<form class="box">
+					<div class="form-group">
+						<label>Username</label>
+						<input type="text" ng-model="User.username">
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" ng-model="User.password">
+					</div>
+					<div class="form-group row" style="margin-left:0px; margin-right:0px;">
+						<input class="btn btn-primary col-md-6" type="submit" value="Submit" ng-click="login()">
+						<div class="col-md-1" style="width: 15px;padding:0px;"></div>
+						<input class="btn btn-default col-md-5" type="reset" ng-click="resetForm()" value="Reset">
+					</div>
+					<div class="form-group row" style="margin-left:16px; margin-right:0px;">
+						<input class="btn btn-warning col-md-11" type="submit" value="Signup!" ng-click="openSignup()">
+					</div>
+				</form>
+				<div class="box-bottom"></div>
+			</div>
+			<div class="signup" style="display:none">
+				<div class="box-top">Sign Up</div>
+				<form>
+					<div class="form-group">
+						<label>Username</label>
+						<input type="text" ng-model="User.username">
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" ng-model="User.password">
+					</div>
+					<div class="form-group">
+						<label>Password</label>
+						<input type="password" ng-model="User.repassword">
+					</div>
+					<div class="form-group">
+						<label>Mail</label>
+						<input type="text" ng-model="User.mail">
+					</div>
+					<div class="form-group">
+						<label>Name</label>
+						<input type="text" ng-model="User.name">
+					</div>
+					<div class="form-group">
+						<label>Surname</label>
+						<input type="text" ng-model="User.surname">
+					</div>
+					<div class="form-group row" style="margin-left:0px; margin-right:0px;">
+						<input class="btn btn-primary col-md-6" type="submit" value="Submit" ng-click="signup()">
+						<div class="col-md-1" style="width: 15px;padding:0px;"></div>
+						<input class="btn btn-default col-md-5" type="reset" ng-click="resetForm()" value="Reset">
+					</div>
+					<div class="form-group row" style="margin-left:16px; margin-right:0px;">
+						<input class="btn btn-warning col-md-11" type="submit" value="Login!" ng-click="openLogin()">
+					</div>
+				</form>
+				<div class="box-bottom"></div>
+			</div>
+			<div class="coupon" style="display:none">
+				<div class="box-top">Coupon</div>
+				<div class="content">
+					<span style="font-weight:bold;padding-bottom: 8px;display: block;">
+						Hoşgeldin {{User.name}} {{User.surname}}
+					</span>
+					<div id="overflowcoupon" class="kuponum-temp">
+						<div class="row">
+							<span ng-hide="Coupon.length" style="font-weight:bold;text-align: center;padding-bottom: 12px;display: block;">Kupon oluşturmak için oranlara tıklayınız.</span>
+							<div ng-repeat="match in fixture" ng-if="match.choice" class="match">
+								<div class="row">
+									<div class="col-md-2"><span style="color:#0A3579;">{{match.code}}</span></div>
+									<div class="col-md-10" style="color:#0A3579;">{{match.home}}-{{match.guest}}</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4"><img src="img/coupon/{{match.choice}}.png"></div>
+									<div class="col-md-7" style="color:#0A3579;">{{match[match.choice]}}</div>
+									<div class="col-md-1">
+										<input type="submit" ng-click="remove(match)" class="btn btn-danger btn-xs" value="X" style="width: 14px; height: 14px; line-height: 14px; font-size: x-small; padding: 0;"/>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">Misli</div>
+							<div class="col-md-1">:</div>
+							<div class="col-md-6">
+								<select name="multiplier" id="multiplier" class="input-style2">
+									<option ng-repeat="n in [] | range:960" value="{{n}}"> {{n}} </option>
+								</select>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">Kupon Bedeli</div>
+							<div class="col-md-1">:</div>
+							<div class="col-md-6 kuponum-textbox">
+								<input name="couponValue" id="couponValue" type="text" class="input-style" readonly="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-5">Max Kazanç</div>
+							<div class="col-md-1">:</div>
+							<div class="col-md-6 kuponum-textbox">
+								<input name="maximumGain" id="maximumGain" type="text" class="input-style" readonly="">
+							</div>
+						</div>
+						<div class="row">
+							<div colspan="3" style="display:none;color:red;text-align:justify;" id="kuponErrTxt"></div>
+						</div>
+						<div class="row">
+							<div colspan="3" style="height:3px;">&nbsp;</div>
+						</div>
+						<div class="row" style="margin-top:10px">
+							<input type="button" class="btn btn-danger btn-xs col-md-5" value="Clear">
+							<div class="col-md-1"></div>
+							<input type="button" class="btn btn-primary btn-xs col-md-6" value="Play Coupon">
+						</div>
+					</div>
+				</div>
+				<div class="box-bottom"></div>
+			</div>
+		</div>
+	</div>
+<div class="footage"></div>
+</body>
+</html>

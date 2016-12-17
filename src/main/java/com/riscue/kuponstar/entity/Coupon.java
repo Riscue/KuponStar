@@ -3,6 +3,7 @@ package com.riscue.kuponstar.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,14 +18,14 @@ public class Coupon implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
-	private Match[] matches;
-	private Integer userid;
-	private Integer Multiplier;
+	private Long userId;
 	private Double MaxRatio;
 	private Double MaxOdds;
 	private Double TotalOdds;
 	private Boolean durum;
 	private Timestamp tarih;
+	@Column(columnDefinition="LONGBLOB NOT NULL")
+	private Match[] matches;
 
 	public Match[] getMatches() {
 		return matches;
@@ -32,22 +33,6 @@ public class Coupon implements Serializable {
 
 	public void setMatches(Match[] matches) {
 		this.matches = matches;
-	}
-
-	public Integer getUserid() {
-		return userid;
-	}
-
-	public void setUserid(Integer userid) {
-		this.userid = userid;
-	}
-
-	public Integer getMultiplier() {
-		return Multiplier;
-	}
-
-	public void setMultiplier(Integer multiplier) {
-		Multiplier = multiplier;
 	}
 
 	public Double getMaxRatio() {
@@ -116,5 +101,13 @@ public class Coupon implements Serializable {
 	@Override
 	public String toString() {
 		return "com.riscue.kuponstar.entity.Coupon[ id=" + id + " ]";
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 }

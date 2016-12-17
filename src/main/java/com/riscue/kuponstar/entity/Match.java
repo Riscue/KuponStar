@@ -19,9 +19,9 @@ public class Match implements Serializable {
 	private int code;
 	private String home;
 	private String guest;
-	private Double MS1;
-	private Double MS0;
-	private Double MS2;
+	private String MS1;
+	private String MS0;
+	private String MS2;
 
 	public int getCode() {
 		return code;
@@ -47,27 +47,27 @@ public class Match implements Serializable {
 		this.guest = guest;
 	}
 
-	public Double getMS1() {
+	public String getMS1() {
 		return MS1;
 	}
 
-	public void setMS1(Double mS1) {
+	public void setMS1(String mS1) {
 		MS1 = mS1;
 	}
 
-	public Double getMS0() {
+	public String getMS0() {
 		return MS0;
 	}
 
-	public void setMS0(Double mS0) {
+	public void setMS0(String mS0) {
 		MS0 = mS0;
 	}
 
-	public Double getMS2() {
+	public String getMS2() {
 		return MS2;
 	}
 
-	public void setMS2(Double mS2) {
+	public void setMS2(String mS2) {
 		MS2 = mS2;
 	}
 

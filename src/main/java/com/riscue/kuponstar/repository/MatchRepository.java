@@ -8,4 +8,6 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
 
 	Match findMatchByCode(int code);
 
+    //@Query(value = "SELECT * FROM USERS")
+	Iterable<Match> findAll();
 }

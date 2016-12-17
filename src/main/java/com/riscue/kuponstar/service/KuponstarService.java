@@ -1,6 +1,5 @@
 package com.riscue.kuponstar.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +49,7 @@ public class KuponstarService {
 	}
 
 	public List<Match> getFixture() {
-		Iterable<Match> matches = matchRepository.findAll();
-		List<Match> fixture = new ArrayList<Match>();
-		for (Match match : matches) {
-			fixture.add(match);
-		}
-		return fixture;
+		return (List<Match>) matchRepository.findAll();
 	}
 
 	public Match getMatch(int code) {
@@ -65,5 +59,13 @@ public class KuponstarService {
 
 	public void saveCoupon(Coupon coupon) {
 		couponRepository.save(coupon);
+	}
+
+	public void saveMatch(Match m) {
+		matchRepository.save(m);
+	}
+
+	public List<Coupon> getCoupons(Long userId) {
+		return (List<Coupon>) couponRepository.findAllByUserId(userId);
 	}
 }
